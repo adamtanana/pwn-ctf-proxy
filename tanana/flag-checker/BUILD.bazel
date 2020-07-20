@@ -1,0 +1,11 @@
+cc_binary(
+    name = "flag-checker",
+    srcs = [
+        "checker.cc",
+    ],
+    deps = [
+        "//tanana/unsw",
+        "@boost//:algorithm",
+        "@boost//:chrono",
+    ],
+)

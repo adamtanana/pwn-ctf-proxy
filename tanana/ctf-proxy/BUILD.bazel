@@ -1,0 +1,15 @@
+cc_binary(
+    name = "ctf-proxy",
+    srcs = [
+        "ctf-proxy.cc",
+    ],
+    deps = [
+        "//json",
+        "//jwt",
+        "//tanana/unsw",
+        "@boost//:algorithm",
+        "@boost//:beast",
+        "@boost//:log",
+        "@boost//:thread",
+    ],
+)
