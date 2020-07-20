@@ -191,7 +191,7 @@ private:
   void handle_downstream_read(const boost::system::error_code &error,
                               const size_t &bytes_transferred) {
     if (!error) {
-      std::string data(upstream_data_, bytes_transferred);
+      std::string data(downstream_data_, bytes_transferred);
       // Replace instances of the template flag from the client
       // to stop people guessing the flag{sha256sum(chalname)}.
       boost::replace_all(data, this->flag_placeholder, "FLAG{nice try}");
@@ -206,7 +206,7 @@ private:
           << "[" << this->session_id << "] [" << this->challenge_name << "] "
           << boost::lexical_cast<std::string>(
                  downstream_socket_.remote_endpoint())
-          << ": " << escape_string(downstream_data_, bytes_transferred);
+          << ": " << escape_string(data.c_str(), data.length());
     } else if (error == boost::asio::error::connection_reset ||
                error == boost::asio::error::operation_aborted ||
                error == boost::asio::error::eof) {
