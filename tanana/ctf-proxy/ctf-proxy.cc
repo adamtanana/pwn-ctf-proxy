@@ -184,18 +184,22 @@ private:
     }
   }
   /*
-     Client --> Proxy --> Remove Server
+     Client --> Proxy --> Remote Server
   */
 
   // Read from client complete, now send data to remote server
   void handle_downstream_read(const boost::system::error_code &error,
                               const size_t &bytes_transferred) {
     if (!error) {
-      async_write(upstream_socket_,
-                  boost::asio::buffer(downstream_data_, bytes_transferred),
-                  boost::bind(&bridge::handle_upstream_write,
-                              shared_from_this(),
-                              boost::asio::placeholders::error));
+      std::string data(upstream_data_, bytes_transferred);
+      // Replace instances of the template flag from the client
+      // to stop people guessing the flag{sha256sum(chalname)}.
+      boost::replace_all(data, this->flag_placeholder, "FLAG{nice try}");
+
+      async_write(
+          upstream_socket_, boost::asio::buffer(data.c_str(), data.length()),
+          boost::bind(&bridge::handle_upstream_write, shared_from_this(),
+                      boost::asio::placeholders::error));
 
       // Log the upstream message., with the session id & challenge name.
       BOOST_LOG_TRIVIAL(trace)
