@@ -206,7 +206,7 @@ private:
           << "[" << this->session_id << "] [" << this->challenge_name << "] "
           << boost::lexical_cast<std::string>(
                  downstream_socket_.remote_endpoint())
-          << ": " << escape_string(data.c_str(), data.length());
+          << ": " << escape_string(downstream_data_, bytes_transferred);
     } else if (error == boost::asio::error::connection_reset ||
                error == boost::asio::error::operation_aborted ||
                error == boost::asio::error::eof) {
