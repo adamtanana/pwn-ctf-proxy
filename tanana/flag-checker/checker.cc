@@ -12,13 +12,11 @@
 class Flag {
 public:
   // Helper class to hold flag data. This probably should be a struct.
-  Flag(std::string flag, std::string zid, std::string ip, std::string session,
-       boost::chrono::system_clock::time_point time) {
+  Flag(std::string flag, std::string zid, std::string ip, std::string session) {
     this->flag = flag;
     this->zid = zid;
     this->ip = ip;
     this->session = session;
-    this->time = time;
   }
   std::string flag;
   std::string zid;
